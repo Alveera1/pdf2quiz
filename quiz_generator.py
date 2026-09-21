@@ -1,4 +1,5 @@
 import os
+import re
 import json
 from openai import OpenAI
 from dotenv import load_dotenv
@@ -62,7 +63,7 @@ Return JSON in this format:
 }
 
 
-def generate_questions(text, question_type="long_answer", num_questions=5, difficulty="medium"):
+def generate_questions(text, question_type="mcq", num_questions=5, difficulty="medium"):
     if question_type not in FORMAT_INSTRUCTIONS:
         raise ValueError(f"Unknown question_type '{question_type}'. Choose from: {list(FORMAT_INSTRUCTIONS.keys())}")
 
@@ -74,6 +75,7 @@ Rules:
 - Questions must be answerable using only the material provided.
 - Do not use outside knowledge.
 - Return ONLY valid JSON, no extra text, no markdown, no explanation.
+- Do NOT include trailing commas anywhere in the JSON.
 
 {format_instruction}
 
@@ -96,7 +98,9 @@ Study material:
         cleaned = cleaned.replace("json", "", 1).strip()
 
     try:
-        data = json.loads(cleaned)
+        # Remove trailing commas before } or ] — common LLM JSON mistake
+        cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
+        data = json.loads(cleaned, strict=False)
         return data["questions"]
     except (json.JSONDecodeError, KeyError) as e:
         print("Failed to parse JSON. Raw output was:")
@@ -121,7 +125,6 @@ if __name__ == "__main__":
     cleaned = clean_text(raw)
     sample_chunk = cleaned[:800]
 
-    # 👇 Change this to whatever type you want to test: mcq, true_false, fill_blank, short_answer, long_answer, descriptive
     qtype = "long_answer"
 
     print(f"\n>>> Generating {qtype} questions...\n")

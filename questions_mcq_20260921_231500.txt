@@ -1,0 +1,39 @@
+PDF2QUIZ - Generated Questions
+Type: mcq | Difficulty: medium
+----------------------------------------
+
+1. Which of the following best describes the primary purpose of a Data Warehouse compared to operational databases?
+   A. Daily transaction processing
+   B. Historical data analysis
+   C. Real‑time inventory tracking
+   D. Data entry
+   Answer: B
+
+2. In the typical Data Warehouse architecture, which layer is responsible for temporarily preparing and validating incoming data?
+   A. Data Sources
+   B. ETL/ELT
+   C. Staging Area
+   D. Data Marts
+   Answer: C
+
+3. Which characteristic of a Data Warehouse indicates that it maintains data that can be analyzed over time?
+   A. Subject‑oriented
+   B. Integrated
+   C. Time‑variant
+   D. Non‑volatile
+   Answer: C
+
+4. Which OLAP operation would you use to view data aggregated at a higher level such as country instead of city?
+   A. Drill‑down
+   B. Roll‑up
+   C. Slice
+   D. Pivot
+   Answer: B
+
+5. In a star schema, which table typically contains the measurable business values?
+   A. Dimension table
+   B. Fact table
+   C. Staging table
+   D. OLAP cube
+   Answer: B
+
