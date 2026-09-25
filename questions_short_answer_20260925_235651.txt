@@ -1,0 +1,13 @@
+PDF2QUIZ - Generated Questions
+Type: short_answer | Difficulty: medium
+----------------------------------------
+
+1. What is the main difference between the purpose of an OLTP system and a Data Warehouse/OLAP system?
+   Answer: An OLTP system is designed for daily transactions and frequent updates, whereas a Data Warehouse/OLAP system is intended for analysis and decision support using largely read-only, historical data.
+
+2. Explain the role of the Staging Area in the ETL process.
+   Answer: The Staging Area is a temporary location where incoming data is prepared, validated, and cleaned before being loaded into the Data Warehouse.
+
+3. Describe the difference between a star schema and a snowflake schema.
+   Answer: A star schema connects a central fact table directly to dimension tables, while a snowflake schema normalizes dimension tables into related tables, reducing redundancy but requiring more joins.
+

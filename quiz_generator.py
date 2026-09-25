@@ -6,9 +6,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# client = OpenAI(
+#     base_url="https://integrate.api.nvidia.com/v1",
+#     api_key=os.getenv("NVIDIA_API_KEY")
+# )
 client = OpenAI(
-    base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.getenv("NVIDIA_API_KEY")
+    base_url="https://api.groq.com/openai/v1",
+    api_key=os.getenv("GROQ_API_KEY")
 )
 
 # Prompt instructions specific to each question type
@@ -63,7 +67,7 @@ Return JSON in this format:
 }
 
 
-def generate_questions(text, question_type="mcq", num_questions=5, difficulty="medium"):
+def generate_questions(text, question_type="mcq", num_questions=5, difficulty="medium", max_retries=2):
     if question_type not in FORMAT_INSTRUCTIONS:
         raise ValueError(f"Unknown question_type '{question_type}'. Choose from: {list(FORMAT_INSTRUCTIONS.keys())}")
 
@@ -83,30 +87,32 @@ Study material:
 {text}
 """
 
-    response = client.chat.completions.create(
-        model="openai/gpt-oss-20b",
-        messages=[{"role": "user", "content": prompt}],
-        temperature=0.7,
-        max_tokens=4096,
-        timeout=120
-    )
+    last_error = None
+    for attempt in range(1, max_retries + 2):
+        try:
+            print(f">>> Attempt {attempt}...")
+            response = client.chat.completions.create(
+                model="openai/gpt-oss-20b",
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.7,
+                max_tokens=4096,
+                timeout=120
+            )
+            raw_output = response.choices[0].message.content
+            cleaned = raw_output.strip()
+            if cleaned.startswith("```"):
+                cleaned = cleaned.strip("`")
+                cleaned = cleaned.replace("json", "", 1).strip()
 
-    raw_output = response.choices[0].message.content
-    cleaned = raw_output.strip()
-    if cleaned.startswith("```"):
-        cleaned = cleaned.strip("`")
-        cleaned = cleaned.replace("json", "", 1).strip()
+            cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
+            data = json.loads(cleaned, strict=False)
+            return data["questions"]
 
-    try:
-        # Remove trailing commas before } or ] — common LLM JSON mistake
-        cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
-        data = json.loads(cleaned, strict=False)
-        return data["questions"]
-    except (json.JSONDecodeError, KeyError) as e:
-        print("Failed to parse JSON. Raw output was:")
-        print(raw_output)
-        raise e
+        except Exception as e:
+            last_error = e
+            print(f">>> Attempt {attempt} failed: {type(e).__name__}: {e}")
 
+    raise last_error
 
 def print_questions(questions, question_type):
     for i, q in enumerate(questions, start=1):

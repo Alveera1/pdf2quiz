@@ -1,0 +1,13 @@
+PDF2QUIZ - Generated Questions
+Type: fill_blank | Difficulty: medium
+----------------------------------------
+
+1. A Data Warehouse is designed for the analysis of large amounts of ______ data.
+   Answer: historical
+
+2. In a star schema, the ______ table is connected directly to several dimension tables.
+   Answer: fact
+
+3. The OLAP operation that summarizes data to a higher level, such as city → state → country, is called ______.
+   Answer: roll-up
+

@@ -6,10 +6,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 client = OpenAI(
-    base_url="https://integrate.api.nvidia.com/v1",
-    api_key=os.getenv("NVIDIA_API_KEY")
+    base_url="https://api.groq.com/openai/v1",
+    api_key=os.getenv("GROQ_API_KEY")
 )
-
 def generate_mcqs(text, num_questions=5, difficulty="medium"):
     prompt = f"""You are a question generator. Based ONLY on the study material below, generate exactly {num_questions} multiple-choice questions at {difficulty} difficulty.
 

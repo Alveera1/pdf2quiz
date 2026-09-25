@@ -1,0 +1,39 @@
+PDF2QUIZ - Generated Questions
+Type: mcq | Difficulty: medium
+----------------------------------------
+
+1. Which feature distinguishes a Data Warehouse from an OLTP system?
+   A. Data is normalized
+   B. Data is mainly read
+   C. Data is current only
+   D. Data is used for daily transactions
+   Answer: B
+
+2. What is the primary purpose of the staging area in a data warehouse architecture?
+   A. To store final integrated data
+   B. To prepare and validate incoming data
+   C. To generate reports
+   D. To host OLAP cubes
+   Answer: B
+
+3. Which characteristic of a data warehouse indicates that data is not frequently updated?
+   A. Subject-oriented
+   B. Time-variant
+   C. Non-volatile
+   D. Integrated
+   Answer: C
+
+4. In a star schema, which table is directly connected to all dimension tables?
+   A. Dimension table
+   B. Fact table
+   C. Snowflake table
+   D. OLAP cube
+   Answer: B
+
+5. Which OLAP operation allows you to move from summarized data to more detailed data?
+   A. Roll-up
+   B. Drill-down
+   C. Slice
+   D. Pivot
+   Answer: B
+
